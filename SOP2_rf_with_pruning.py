@@ -1,3 +1,9 @@
+"""
+SOP 2: Randomly selecting features at each split reduces model training and performance.
+Randomly selecting features at each split in the algorithm slows the process of finding the best splits, which increases the time it takes to train the model.
+
+OBJECTIVE: To integrate Reduced Error Pruning techniques to enhance the algorithm’s performance by trimming unnecessary branches from individual trees, improving efficiency and reducing overfitting.
+"""
 import numpy as np
 import pandas as pd
 import chardet
@@ -11,11 +17,11 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.tree._tree import TREE_LEAF
 
 # Detect Encoding
-with open('dataset2.csv', 'rb') as f:
+with open('dataset1.csv', 'rb') as f:
     result = chardet.detect(f.read())
 
 # Load Dataset
-data = pd.read_csv('dataset2.csv', encoding=result['encoding'])
+data = pd.read_csv('dataset1.csv', encoding=result['encoding'])
 data = data[['LABEL', 'TEXT']]
 data.columns = ['LABEL', 'TEXT']
 

@@ -17,11 +17,11 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.tree._tree import TREE_LEAF
 
 # Detect Encoding
-with open('dataset1.csv', 'rb') as f:
+with open('dataset4.csv', 'rb') as f:
     result = chardet.detect(f.read())
 
 # Load Dataset
-data = pd.read_csv('dataset1.csv', encoding=result['encoding'])
+data = pd.read_csv('dataset4.csv', encoding=result['encoding'])
 data = data[['LABEL', 'TEXT']]
 data.columns = ['LABEL', 'TEXT']
 

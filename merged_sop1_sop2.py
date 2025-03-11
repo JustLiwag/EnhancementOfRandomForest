@@ -1,3 +1,53 @@
+"""
+This program combines two Random Forest enhancements - Spectral Co-Clustering and Reduced Error Pruning - 
+for improved text classification. The process works as follows:
+
+1. Data Loading and Preprocessing:
+   - Detects and loads the dataset with proper encoding
+   - Extracts LABEL and TEXT columns
+   - Converts labels to numerical format using LabelEncoder
+   - Vectorizes text data using TF-IDF
+
+2. Standard Random Forest (Baseline):
+   - Implements basic Random Forest classifier
+   - Used as a benchmark for comparison
+
+3. Pruning-Only Approach:
+   - Implements Reduced Error Pruning on decision trees
+   - Evaluates nodes based on impurity and accuracy
+   - Creates a forest with pruned trees
+
+4. Co-Clustering-Only Approach:
+   - Removes zero-sum features
+   - Optimizes number of clusters
+   - Uses Spectral Co-Clustering for feature selection
+   - Trains Random Forest on selected features
+
+5. Combined Enhancement Approach:
+   - First applies Spectral Co-Clustering for feature selection
+   - Then applies Reduced Error Pruning to the trees
+   - Creates an optimized forest using both techniques
+
+6. Comprehensive Evaluation:
+   - Compares all four approaches:
+     * Standard Random Forest (baseline)
+     * Pruning-Only Random Forest
+     * Co-Clustering-Only Random Forest
+     * Combined Enhancement Random Forest
+   - Evaluates using multiple metrics:
+     * Accuracy
+     * Precision
+     * Recall
+     * F1-Score
+
+The combined approach aims to leverage the benefits of both enhancements:
+- Co-Clustering reduces feature dimensionality and noise
+- Pruning optimizes tree structure and reduces overfitting
+This potentially leads to a more efficient and accurate classifier.
+"""
+
+# MARCH 11, 2025
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import SpectralCoclustering
 from sklearn.ensemble import RandomForestClassifier

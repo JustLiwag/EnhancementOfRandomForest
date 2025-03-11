@@ -1,9 +1,38 @@
 """
-SOP 2: Randomly selecting features at each split reduces model training and performance.
-Randomly selecting features at each split in the algorithm slows the process of finding the best splits, which increases the time it takes to train the model.
+This program implements an enhanced Random Forest classifier using Reduced Error Pruning for text classification.
+The process works as follows:
 
-OBJECTIVE: To integrate Reduced Error Pruning techniques to enhance the algorithm’s performance by trimming unnecessary branches from individual trees, improving efficiency and reducing overfitting.
+1. Data Loading and Preprocessing:
+   - Detects and loads the dataset with proper encoding
+   - Extracts LABEL and TEXT columns
+   - Converts labels to numerical format using LabelEncoder
+   - Vectorizes text data using TF-IDF
+
+2. Standard Random Forest (Baseline):
+   - Splits data into training and test sets
+   - Trains a standard Random Forest classifier with balanced class weights
+   - Records training time and makes predictions
+
+3. Enhanced Random Forest with Reduced Error Pruning:
+   - Implements a pruning function that:
+     * Examines each non-leaf node in the decision trees
+     * Evaluates impurity reduction at each node
+     * Temporarily converts nodes to leaves if impurity is below threshold
+     * Keeps pruning only if accuracy improves
+   - Applies pruning to a subset of trees in the forest
+   - Creates a new forest with the pruned trees
+
+4. Comparative Analysis:
+   - Measures and compares training times between standard and pruned models
+   - Evaluates performance metrics for both approaches
+   - Prints comparative analysis of efficiency gains
+
+The enhancement aims to improve model efficiency by removing unnecessary branches from the decision trees
+while maintaining or improving classification performance.
 """
+
+# MARCH 11, 2025
+
 import numpy as np
 import pandas as pd
 import chardet

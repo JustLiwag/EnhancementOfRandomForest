@@ -1,4 +1,38 @@
-# MARCH 06, 2025
+"""
+This program implements an enhanced Random Forest classifier using Spectral Co-Clustering for text classification.
+The process works as follows:
+
+1. Data Loading and Preprocessing:
+   - Detects and loads the dataset with proper encoding
+   - Extracts LABEL and TEXT columns
+   - Converts labels to numerical format using LabelEncoder
+   - Vectorizes text data using TF-IDF
+
+2. Standard Random Forest (Baseline):
+   - Splits data into training and test sets
+   - Trains a standard Random Forest classifier
+   - Makes predictions on test data
+
+3. Enhanced Random Forest with Spectral Co-Clustering:
+   - Removes zero-sum rows and columns from the feature matrix
+   - Performs optimization to find the best number of clusters (2-10)
+   - For each cluster count:
+     * Applies Spectral Co-Clustering
+     * Selects relevant features from the first cluster
+     * Trains Random Forest on reduced feature set
+     * Evaluates performance using F1-score
+   - Keeps the model with the best performance
+
+4. Evaluation and Comparison:
+   - Calculates metrics (Accuracy, Precision, Recall, F1-Score)
+   - Compares standard vs enhanced Random Forest performance
+   - Prints detailed classification reports and comparative analysis
+
+The enhancement aims to improve classification by using co-clustering to identify and select the most relevant features,
+potentially reducing noise and improving model efficiency.
+"""
+
+# MARCH 11, 2025
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import SpectralCoclustering

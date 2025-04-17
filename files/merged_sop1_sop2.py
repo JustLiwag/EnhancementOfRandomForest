@@ -46,7 +46,7 @@ The combined approach aims to leverage the benefits of both enhancements:
 This potentially leads to a more efficient and accurate classifier.
 """
 
-# MARCH 11, 2025
+# April 17, 2025
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import SpectralCoclustering
@@ -61,12 +61,16 @@ import chardet
 import time
 import copy
 
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+dataset_path = os.path.join(script_dir, 'dataset2.csv')
+
 # Detect Encoding
-with open('dataset1.csv', 'rb') as f:
+with open(dataset_path, 'rb') as f:
     result = chardet.detect(f.read())
 
 # Load Dataset
-data = pd.read_csv('dataset1.csv', encoding=result['encoding'])
+data = pd.read_csv(dataset_path, encoding=result['encoding'])
 data = data[['LABEL', 'TEXT']]
 data.columns = ['LABEL', 'TEXT']
 

@@ -1,0 +1,22 @@
+1.5 Statement of the Problem
+    With the growing extent of AI technologies in the field of cybersecurity, the improvement of the Random Forest algorithm for SMS fraud detection becomes inevitable. This technique is commonly used as a tool in banking for example for the identification of customer loan risks, in medicine for the identification of illness trends, to classify different types of land use, and to analyze product development trends in the market. However, it faces several challenges that limit its effectiveness. The main challenges pointed out are:
+    
+    1. Unbalanced datasets lead to inaccurate predictions.
+        Unbalanced datasets can bias class error rates and variable importance in random forests, particularly when sample sizes are smaller and imbalance levels are higher (Bradter, et. al, 2022).
+    2. Randomly selecting features at each split reduces model training and performance.
+        The computational complexity of Random Forest increases with high-dimensional data, as the algorithm evaluates multiple features at each split to identify the most informative ones (Iranzad and Liu, 2024).
+    3. Reduces the transparency and accountability due to lack of interpretability.
+        Storing trained decision trees in Random Forests reduces interpretability by combining multiple models, complicating decision path tracing and bias detection. This contrasts with the clear decision paths offered by single decision trees (Bénard et. al, 2022).
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1.6 Objective of the Study
+
+1.6.1 General Objective
+    In confronting the growing sophistication of SMS-based fraud, it is crucial to advance our technological defenses to match the agility of smishing schemes. Additionally, it also attempts to provide a more reliable and efficient method of identifying SMS Fraud that spreads.
+1.6.2 Specific Objectives
+    The objectives of this study in enhancing the Random Forest algorithm are centered around the following aims:
+    
+    1. Emphasize the feature selection phase and account for nonlinear dependencies to enhance classification accuracy.
+    2. Enhance the algorithm’s performance by trimming unnecessary branches from individual trees, improving efficiency.
+    3. Visualize how specific features influence the model’s predictions, improving interpretability by showing the feature's effect.

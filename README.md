@@ -4,7 +4,6 @@ This application uses an enhanced Random Forest algorithm to detect fraudulent S
 
 1. Spectral Co-Clustering for feature selection
 2. Reduced Error Pruning for decision trees
-3. Contextual Feature Contribution Network (CFCN) for analyzing feature contributions
 
 ## Setup and Installation
 
@@ -37,19 +36,17 @@ This will open the web application in your default browser.
 
 1. **Select a dataset** from the dropdown in the sidebar
 2. **Train models** by clicking the "Train Models" button in the sidebar
-3. **Select a model type** from the dropdown (Standard, Pruned, Co-Clustered, or Combined)
+3. **Select a model type** from the dropdown (Standard RF or Enhanced RF)
 4. **Enter the SMS message** text in the text area
 5. **Click "Classify"** to analyze the message
 6. The system will display whether the message is fraudulent or not
 
 ## Model Types
 
-- **Standard**: Basic Random Forest classifier
-- **Pruned**: Random Forest with Reduced Error Pruning
-- **Co-Clustered**: Random Forest with Spectral Co-Clustering for feature selection
-- **Combined**: Uses both Co-Clustering and Pruning techniques
+- **Standard Random Forest**: Basic Random Forest classifier
+- **Enhanced Random Forest**: Advanced Random Forest with both Spectral Co-Clustering for feature selection and Reduced Error Pruning
 
-Each model offers different trade-offs between accuracy, efficiency, and interpretability.
+The Enhanced RF model combines multiple techniques for improved accuracy and interpretability.
 
 ## Model Training and Storage
 

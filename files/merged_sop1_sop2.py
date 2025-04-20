@@ -63,7 +63,7 @@ import copy
 
 import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
-dataset_path = os.path.join(script_dir, 'dataset2.csv')
+dataset_path = os.path.join(script_dir, 'dataset1.csv')
 
 # Detect Encoding
 with open(dataset_path, 'rb') as f:

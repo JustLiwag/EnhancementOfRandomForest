@@ -1,0 +1,31 @@
+# Fraud SMS Message Examples for Testing
+
+1. "Please Stay At Home. To encourage the notion of staying at home. All tax-paying citizens are entitled to £305.96 or more emergency refund. smsg.io/fCVbD"
+
+2. "BankOfAmerica Alert 137943. Please follow http://bit.do/cgjK-and re-activate"
+
+3. "Apple ID: [BUXCX7GBVwWCcOD Final Notification Your Apple 1D is due to expire today. Prevent this by confirming your Apple ID at http://verifyapple.uk Apple Inc"
+
+4. "UR awarded a City Break and could WIN a £200 Summer Shopping spree every WK. Txt STORE to 88039"
+
+5. "YOU HAVE WON! As a valued Vodafone customer our computer has picked YOU to win a £150 prize. To collect is easy. Just call 09061743386"
+
+6. "Phony £350 award - Todays Voda numbers ending XXXX are selected to receive a £350 award. If you have a match please call 08712300220 quoting claim code 3100"
+
+7. "Todays Voda numbers ending 7548 are selected to receive a $350 award. If you have a match please call 08712300220 quoting claim code 4041"
+
+8. "You have an important customer service announcement. Call FREEPHONE 0800 542 0825 now!"
+
+9. "Please CALL 08712404000 immediately as there is an urgent message waiting for you."
+
+10. "You have won a guaranteed £200 award or even £1000 cash to claim UR award call free on 08000407166"
+
+11. "Dear PAYTM customer your Paytm KYC has expired. Contact customer care No-6200992462 immediately. your account will Block within 24 hr. Thank you PAYTM TEAM."
+
+12. "Dear customer, Due to BVN system upgrade your ATM CARD has been De-activated, to re-activate, kindly call customer care on 08065635084 for help."
+
+13. "Congratulations ur awarded either £500 of CD gift vouchers & Free entry 2 our £100 weekly draw txt MUSIC to 87066"
+
+14. "FreeMsg Hey U, i just got 1 of these video/pic fones, reply WILD to this txt & ill send U my pics, hurry up Im so bored at work xxx"
+
+15. "Welcome to UK-mobile-date this msg is FREE giving you free calling to 08719839835. Future mgs billed at 150p daily." 

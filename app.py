@@ -19,6 +19,7 @@ import glob
 from pathlib import Path
 import matplotlib.pyplot as plt
 import seaborn as sns
+import torch.optim as optim
 
 # Set page configuration
 st.set_page_config(
@@ -157,6 +158,61 @@ def load_models(dataset_name, model_type):
         st.error(f"Error loading model: {str(e)}")
         return None
 
+# CFCN Model Definition
+class CFCN(nn.Module):
+    def __init__(self, input_dim, hidden_dim=128):
+        super(CFCN, self).__init__()
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_dim, input_dim)
+        self.fc3 = nn.Linear(input_dim, 2)
+
+    def forward(self, x):
+        hidden = self.relu(self.fc1(x))
+        contribution_scores = torch.sigmoid(self.fc2(hidden))
+        output = self.fc3(contribution_scores * x)
+        return output, contribution_scores
+
+# Function to get feature contributions
+def get_feature_contributions(text, model_data):
+    """Get feature contributions for the input text using CFCN"""
+    vectorizer = model_data["vectorizer"]
+    
+    # Transform input text and get feature names
+    text_vec = vectorizer.transform([text])
+    feature_names = vectorizer.get_feature_names_out()
+    
+    # Get only the features present in the input text
+    text_features = []
+    for idx, val in enumerate(text_vec.toarray()[0]):
+        if val > 0:
+            text_features.append((feature_names[idx], val))
+    
+    # Initialize CFCN
+    input_dim = len(feature_names)
+    cfc_model = CFCN(input_dim)
+    
+    # Get predictions and contributions
+    text_tensor = torch.tensor(text_vec.toarray(), dtype=torch.float32)
+    cfc_model.eval()
+    with torch.no_grad():
+        _, feature_contributions = cfc_model(text_tensor)
+    
+    # Create contribution dataframe only for features present in the text
+    contributions = []
+    for feature, value in text_features:
+        contribution_score = feature_contributions[0][vectorizer.vocabulary_[feature]].item()
+        contributions.append({
+            'Feature': feature,
+            'Contribution': contribution_score,
+            'TF-IDF Value': value
+        })
+    
+    contribution_df = pd.DataFrame(contributions)
+    contribution_df = contribution_df.sort_values('Contribution', ascending=False)
+    
+    return contribution_df
+
 # Function to predict
 def predict_fraud(text, dataset_name, model_type):
     """
@@ -167,7 +223,7 @@ def predict_fraud(text, dataset_name, model_type):
     
     if model_data is None:
         st.error(f"Model not found for {dataset_name} - {model_type}.")
-        return None
+        return None, None
     
     # Extract components
     model = model_data["model"]
@@ -181,6 +237,7 @@ def predict_fraud(text, dataset_name, model_type):
     if model_type == "Standard RF":
         prediction = model.predict(new_text_vec)
         predicted_label = label_encoder.inverse_transform(prediction)[0]
+        feature_contributions = None
     
     elif model_type == "Enhanced RF":
         # Apply co-clustering transformations
@@ -191,7 +248,6 @@ def predict_fraud(text, dataset_name, model_type):
         selected_features = model_data.get("selected_features")
         
         if nonzero_col_indices is not None and selected_features is not None:
-            # Check if dimensions match and apply transformations
             if new_text_vec.shape[1] > len(nonzero_col_indices):
                 new_text_vec = new_text_vec[:, nonzero_col_indices]
             
@@ -200,8 +256,11 @@ def predict_fraud(text, dataset_name, model_type):
         
         prediction = model.predict(new_text_vec)
         predicted_label = label_encoder.inverse_transform(prediction)[0]
+        
+        # Get feature contributions for Enhanced RF
+        feature_contributions = get_feature_contributions(text, model_data)
     
-    return predicted_label
+    return predicted_label, feature_contributions
 
 # Check for available pre-trained models
 available_models = get_available_models()
@@ -237,12 +296,14 @@ if st.button("Check"):
         if model_type != "No models available":
             with st.spinner("Checking..."):
                 try:
-                    # Start the classification process
-                    start_time = time.time()
+                    # Start the detection process timing
+                    detection_start_time = time.time()
                     
-                    result = predict_fraud(user_input, selected_dataset, model_type)
+                    result, feature_contributions = predict_fraud(user_input, selected_dataset, model_type)
                     
-                    end_time = time.time()
+                    # End detection timing
+                    detection_end_time = time.time()
+                    detection_time = detection_end_time - detection_start_time
                     
                     if result:
                         # Display the result
@@ -251,7 +312,33 @@ if st.button("Check"):
                         else:
                             st.success("✅ Not Fraud")
                             
-                        st.info(f"Detection completed in {end_time - start_time:.2f} seconds using {model_type} model")
+                        st.info(f"Detection completed in {detection_time:.2f} seconds using {model_type} model")
+                        
+                        # Show feature contributions for Enhanced RF
+                        if model_type == "Enhanced RF" and feature_contributions is not None:
+                            # Start visualization timing separately
+                            viz_start_time = time.time()
+                            
+                            st.subheader("Feature Contributions Analysis")
+                            st.write("Most influential features from your message:")
+                            
+                            if not feature_contributions.empty:
+                                # Create and display the visualization
+                                fig, ax = plt.subplots(figsize=(10, 6))
+                                sns.barplot(x='Contribution', y='Feature', 
+                                          data=feature_contributions.head(10), ax=ax)
+                                plt.title('Top Features by Contribution')
+                                plt.tight_layout()
+                                st.pyplot(fig)
+                                
+                                # Display the raw data
+                                st.write("Feature Contribution Details:")
+                                st.dataframe(feature_contributions[['Feature', 'Contribution', 'TF-IDF Value']].head(10))
+                            else:
+                                st.warning("No significant features found in the input text.")
+                            
+                            viz_end_time = time.time()
+                            st.caption(f"Visualization generated in {viz_end_time - viz_start_time:.2f} seconds")
                     else:
                         st.error("Detection failed. Please ensure the selected model type is available.")
                 

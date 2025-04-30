@@ -23,7 +23,7 @@ import torch.optim as optim
 
 # Set page configuration
 st.set_page_config(
-    page_title="SMS Fraud Detection📨🔍",
+    page_title="SMS Fraud Detection📨",
     page_icon="🔍",
     layout="centered"
 )

@@ -181,6 +181,7 @@ def get_feature_contributions(text, model_data):
     # Transform input text and get feature names
     text_vec = vectorizer.transform([text])
     feature_names = vectorizer.get_feature_names_out()
+    input_dim = len(feature_names)
     
     # Get only the features present in the input text
     text_features = []
@@ -189,7 +190,6 @@ def get_feature_contributions(text, model_data):
             text_features.append((feature_names[idx], val))
     
     # Initialize CFCN
-    input_dim = len(feature_names)
     cfc_model = CFCN(input_dim)
     
     # Get predictions and contributions
@@ -243,7 +243,7 @@ def predict_fraud(text, dataset_name, model_type):
         # Apply co-clustering transformations
         new_text_vec = new_text_vec.tocsc()
         
-        # Apply feature selection
+        # Apply feature selection if available
         nonzero_col_indices = model_data.get("nonzero_col_indices")
         selected_features = model_data.get("selected_features")
         
@@ -257,7 +257,7 @@ def predict_fraud(text, dataset_name, model_type):
         prediction = model.predict(new_text_vec)
         predicted_label = label_encoder.inverse_transform(prediction)[0]
         
-        # Get feature contributions for Enhanced RF
+        # Get feature contributions for visualization (OBJ3)
         feature_contributions = get_feature_contributions(text, model_data)
     
     return predicted_label, feature_contributions
@@ -314,11 +314,8 @@ if st.button("Check"):
                             
                         st.info(f"Detection completed in {detection_time:.2f} seconds using {model_type} model")
                         
-                        # Show feature contributions for Enhanced RF
+                        # Show feature contributions for Enhanced RF (OBJ3)
                         if model_type == "Enhanced RF" and feature_contributions is not None:
-                            # Start visualization timing separately
-                            viz_start_time = time.time()
-                            
                             st.subheader("Feature Contributions Analysis")
                             st.write("Most influential features from your message:")
                             
@@ -336,9 +333,6 @@ if st.button("Check"):
                                 st.dataframe(feature_contributions[['Feature', 'Contribution', 'TF-IDF Value']].head(10))
                             else:
                                 st.warning("No significant features found in the input text.")
-                            
-                            viz_end_time = time.time()
-                            st.caption(f"Visualization generated in {viz_end_time - viz_start_time:.2f} seconds")
                     else:
                         st.error("Detection failed. Please ensure the selected model type is available.")
                 
